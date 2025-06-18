@@ -1,0 +1,62 @@
+// 自定义element-plus主题颜色
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #21cee9,
+    ),
+    'success': (
+      'base': #71d46f,
+    ),
+    'warning': (
+      'base': #e6a23c,
+    ),
+    'danger': (
+      'base': #e34d59,
+    ),
+    'error': (
+      'base': #e34d59,
+    ),
+    'info': (
+      'base': #e1b9f3,
+    ),
+  )
+);
+// 自定义css变量
+$main-color: rgb(183, 0, 255);
+@mixin setFontSize($size) {
+  font-size: $size !important;
+}
+.setBorder {
+  border-width: 2px !important;
+}
+.el-button {
+  display: inline-block;
+  padding: 0 5px;
+  text-align: center;
+  margin: 2px;
+}
+.el-image-viewer__actions {
+  bottom: 2px;
+  height: 30px;
+  padding: 0;
+  > div {
+    padding: 0;
+    i {
+      padding: 0 20px;
+    }
+  }
+}
+.el-image-viewer__progress {
+  bottom: 30px;
+}
+.el-result {
+  padding: 0;
+  max-width: 200px;
+  min-width: 60px;
+  > div {
+    margin-top: 10px;
+  }
+}
+.el-dialog__body {
+  height: calc(100% - 92px);
+}
