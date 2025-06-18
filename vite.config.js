@@ -77,10 +77,7 @@ export default defineConfig(({ command, mode }) => {
           IconsResolver({
             // 需要安装 @iconify-json/ep 包
             prefix: false, // 自动引入组件的统一前缀
-            customCollections: {
-              // 自定义本地图标模块集合
-              svg: './src/assets/svg/*',
-            },
+            customCollections: ['svg'], // 自定义本地图标模块集合
           }),
         ],
       }),
