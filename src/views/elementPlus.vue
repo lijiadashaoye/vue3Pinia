@@ -4,12 +4,21 @@
       <h3>IconsResolver使用</h3>
       <p style="color: red">
         使用自动导入的element图标：ep+图标名
-        <ep-search/> &nbsp; <epSearch/>
+        <ep-search />
+        &nbsp;
+        <epSearch />
+        &nbsp;
+        <epsearch />
       </p>
       <p style="color: blue">
         使用自动导入的svg图标文件：文件夹名+文件名
-        <svg-ppp /> &nbsp; <svgPpp />
+        <svg-ppp />
+        &nbsp;
+        <svgPpp />
+        &nbsp;
+        <svgppp />
       </p>
+      <h3>elementPlus使用</h3>
       <p>
         链接文字：
         <el-link type="primary">
@@ -20,24 +29,29 @@
           <el-icon class="el-icon--right"><epBell /></el-icon>
         </el-link>
       </p>
+
       <p>
         <el-text line-clamp="2" style="width: 58%">
           两行：多行文字超出部分显示省略号 多行文字超出部分显示省略号 多行文字超出部分显示省略号
           多行文字超出部分显示省略号
         </el-text>
       </p>
+
       <p>
         <el-text line-clamp="1" style="width: 50%">
           一行：单行文字超出部分显示省略号单行文字超出部分显示省略号
         </el-text>
       </p>
+
       <p class="toLong">手撸文字超长时显示省略号</p>
+
       <p class="toLongMore">手撸文字超长时显示省略号手撸文字超长时显</p>
+
       <div class="badges">
-        <el-badge :value="12" :max="10">
+        <el-badge :value="12" :max="10" :offset="[1, 8]">
           <el-button>提示徽章</el-button>
         </el-badge>
-        <el-badge value="16" max="15">
+        <el-badge value="16" max="15" :offset="[2, 5]">
           <el-button>自定义提示内容</el-button>
           <template #content="{ value }">
             <epMessage />
@@ -47,9 +61,9 @@
         <el-badge is-dot class="item" :offset="[2, -1]">只有一个红点</el-badge>
       </div>
 
-      <div>
-        <h3>图片预览</h3>
-        <div style="display: flex; justify-content: space-around">
+      <div style="display: flex; justify-content: space-around">
+        <div>
+          <h3>图片预览</h3>
           <el-image
             style="width: 100px; height: 100px"
             title="点击查看大图"
@@ -64,7 +78,9 @@
               <el-icon @click="download(activeIndex)"><epDownload /></el-icon>
             </template>
           </el-image>
-
+        </div>
+        <div>
+          <h3>结果提示</h3>
           <el-result icon="success" title="成功！成功！" sub-title="子标题">
             <template #extra>
               <el-button type="primary" size="small">返回</el-button>
@@ -98,7 +114,7 @@
         </div>
       </el-scrollbar>
       <div>
-        <h4 style="margin: 3px 0">当父元素使用 didplay:grid</h4>
+        <h4 style="margin: 3px 0">当父元素使用了 didplay:grid</h4>
         <p>grid是以默认的 content-box 为父元素grid尺寸划分</p>
         <p>margin、padding 不计算在 grid 尺寸内</p>
         <p>如果父元素设置了 box-sizing:border-box; 则在grid尺寸划分时，要包含border和padding尺寸</p>
@@ -109,17 +125,13 @@
       <h3>grid布局</h3>
       <!-- https://segmentfault.com/a/1190000044171347 -->
       <p>
-        自适应尺寸计算：repeat(3, calc((100% - 20px) / 3))
+        数量固定，自适应尺寸计算：repeat(3, calc((100% - 20px) / 3))
         <br />
-        自适应最低尺寸：repeat(auto-fit, minmax(400px, 1fr));
-        <br />
-        grid布局的尺寸计算：
-        <br />
-        grid-template-columns + grid-gap = body.offiectWidth
+        数量、尺寸都自适应最低尺寸：repeat(auto-fit, minmax(400px, 1fr));
         <br />
         fr 只是一种度量，设置多少都可以，最后所有fr的和就是父元素的尺寸
       </p>
-      <h3>自适应尺寸</h3>
+      <h3>自适应尺寸：repeat(auto-fit, minmax(60px, 1fr))</h3>
       <div class="gridLearn resizable">
         <p>1</p>
         <p>2</p>
@@ -128,7 +140,7 @@
         <p>5</p>
       </div>
       <div>
-        <h3>固定子元素尺寸</h3>
+        <h3>固定子元素尺寸：repeat(auto-fit, minmax(60px, 1fr))</h3>
         <ul class="gridTest resizable">
           <li v-for="t in 13" :key="t">{{ t }}</li>
         </ul>
@@ -206,20 +218,21 @@
         :interval="4000"
         type="card"
         :cardScale="0.7"
-        height="110px"
+        height="90px"
         arrow="never"
       >
         <el-carousel-item v-for="item in 6" :key="item">
           <h3>{{ item }}</h3>
         </el-carousel-item>
       </el-carousel>
+
       <h3>上下滑动走马灯</h3>
       <el-carousel
         indicator-position="none"
         direction="vertical"
         :interval="4000"
         type="card"
-        height="140px"
+        height="120px"
       >
         <el-carousel-item v-for="item in 6" :key="item">
           <h3>{{ item }}</h3>
@@ -243,7 +256,7 @@
               标题
             </div>
           </template>
-          第一行第二列内容
+          第一行第一列
         </el-descriptions-item>
 
         <el-descriptions-item :rowspan="2">
@@ -255,7 +268,7 @@
               标题
             </div>
           </template>
-          跨两行内容
+          第一行第二列，并跨两行内容
         </el-descriptions-item>
 
         <el-descriptions-item>
@@ -267,7 +280,7 @@
               标题
             </div>
           </template>
-          第一行第三列内容
+          第一行第三列
         </el-descriptions-item>
 
         <el-descriptions-item
@@ -277,7 +290,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          第二行第一列内容
+          第二行第一列
         </el-descriptions-item>
 
         <el-descriptions-item
@@ -287,7 +300,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          第二行第三列内容
+          第二行第三列
         </el-descriptions-item>
 
         <el-descriptions-item>
@@ -319,7 +332,6 @@
     <div>
       <h3>表格</h3>
       <el-table
-        allow-drag-last-column
         border
         highlight-current-row
         max-height="300"
@@ -366,7 +378,7 @@
       </el-table>
       <div class="isPation">
         <div>
-          <el-button size="small" type="primary" @click="onAddItem">添加</el-button>
+          <el-button size="small" type="primary" @click="addItem">添加</el-button>
           <el-button size="small" type="warning" @click="setSelect">选中</el-button>
           <el-button size="small" type="info" @click="removeSelect">清空复选框</el-button>
           <el-button size="small" type="success" @click="clearCurrent">清除选中行</el-button>
@@ -524,7 +536,7 @@
         {{ collapseType ? '折叠' : '展开' }}
       </el-button>
       <el-collapse-transition>
-        <div v-show="collapseType" style="height: 100px">
+        <div v-show="collapseType" style="height: 90px">
           <div class="transition-box">el-collapse-transition</div>
           <div class="transition-box">el-collapse-transition</div>
         </div>
@@ -543,12 +555,15 @@
       <div style="display: grid; grid-template-columns: 50% 50%">
         <div>
           <h3>同源多页面实时通信</h3>
-          <el-button @click="guangbo">guangbo</el-button>
+          <el-button @click="guangbo">广播</el-button>
         </div>
         <div>
           <h3>使用hidden显示隐藏标签</h3>
           <el-button @click="isHidden = !isHidden">{{ isHidden ? '显示' : '隐藏' }}</el-button>
-          <span :hidden="isHidden">标签</span>
+          <p>
+            <span :hidden="isHidden" style="color: red">测试</span>
+            标签虽然不显示了，但DOM解构依然存在
+          </p>
         </div>
         <div>
           <h3>标签全屏显示</h3>
@@ -563,7 +578,7 @@
     </div>
 
     <div>
-      <h3>可编辑div标签</h3>
+      <h3>可输入、调整大小的div标签</h3>
       <div contenteditable="true" class="editDiv"></div>
     </div>
 
@@ -698,7 +713,7 @@
   // 表单
   const formRef = ref(null);
   const initForm = ref([]);
-  Array.from({ length: 5 }, (_, i) => {
+  Array.from({ length: 4 }, (_, i) => {
     initForm.value.push({
       label: '年龄' + i,
       prop: 'age' + i,
@@ -711,7 +726,7 @@
       return all;
     }, {}),
   );
-  const submitForm = formEl => {
+  function submitForm(formEl) {
     formEl.validate(valid => {
       if (valid) {
         console.log(formData);
@@ -719,16 +734,16 @@
         console.log('error submit!');
       }
     });
-  };
-  const resetForm = formEl => {
+  }
+  function resetForm(formEl) {
     formEl.resetFields();
-  };
+  }
 
   // 上传
   const uploadRef = ref(null);
-  const submitUpload = e => {
+  function submitUpload(e) {
     console.log(e);
-  };
+  }
   // 图片放大查看
   const url = 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg';
   const srcList = [
@@ -740,9 +755,9 @@
     'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
     'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
   ];
-  let download = tar => {
+  function download(tar) {
     console.log(tar);
-  };
+  }
 
   // 表格
   let tableData = reactive({
@@ -802,10 +817,10 @@
     address: 'No. 18, Grove St, Los Angeles',
   }));
 
-  let deleteRow = tar => {
+  function deleteRow(tar) {
     console.log(tar);
-  };
-  let onAddItem = () => {
+  }
+  function addItem() {
     let arr = Array.from({ length: 10 }, (_, index) => ({
       id: tableData.list.length + index,
       name: 'Tom',
@@ -814,7 +829,7 @@
       address: 'No. 18, Grove St, Los Angeles',
     }));
     tableData.list.push(...arr);
-  };
+  }
   // 复选框
   function handleSelectionChange(val) {
     console.log(val);
@@ -856,12 +871,12 @@
     console.log(val);
   }
   // 清空表格选中行
-  let clearCurrent = () => {
+  function clearCurrent() {
     isTable1.value.setCurrentRow(null);
-  };
-  let tooltipFormatter = tip => {
+  }
+  function tooltipFormatter(tip) {
     return `提示：${tip.cellValue}`;
-  };
+  }
 
   // 多级表头表格
   let moreHeaderTable = reactive({
@@ -940,6 +955,7 @@
   function formatter(row, column, cellValue, index) {
     return `格式化显示:${cellValue}`;
   }
+
   // 监听滚动变更导航
   let anchorWap = ref(null);
   let affix = ref(null);
@@ -964,6 +980,7 @@
       loading.close();
     }, 3000);
   }
+  // 二次确认框
   function showMessage() {
     ElMessageBox.confirm('确定要执行此操作吗？', '提示', {
       confirmButtonText: '确认',
@@ -977,10 +994,10 @@
         ElMessage.error('已取消操作');
       });
   }
-
   function messageFn() {
     ElMessage('This is a message.');
   }
+
   function batteryFn() {
     navigator.getBattery().then(battery => {
       ElMessage(
@@ -988,7 +1005,7 @@
       );
     });
   }
-  // tooltip
+  // 手动关闭 tooltip
   let visible = ref(false);
   // el-collapse-transition
   let collapseType = ref(false);
@@ -1003,8 +1020,8 @@
     }
   }
 
+  // 发送数据到频道，从而使同源频道内都能接受数据
   let channel = new BroadcastChannel('11');
-  // 发送数据到频道，从而使同频道内都能接受数据
   function guangbo() {
     window.open(window.location.href);
     setTimeout(() => {
@@ -1019,6 +1036,7 @@
       window.close();
     }
   };
+
   // 使用hidden显示隐藏标签
   let isHidden = ref(false);
 
@@ -1033,6 +1051,7 @@
     }, 3000); // 退出全屏
   }
 
+  // 桌面通知
   function tongzhi() {
     Notification.requestPermission(status => {
       // default：用户还未被询问是否授权，所以通知不会被显示。
