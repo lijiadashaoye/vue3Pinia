@@ -92,10 +92,11 @@ export default defineConfig(({ command, mode }) => {
         },
       }),
       svgLoader({
+        defaultImport: 'raw',
         svgoConfig: {
           multipass: true,
           svgo: true,
-          defaultImport: 'raw',
+          plugins: ['cleanupAttrs'],
         },
       }), // raw返回svg代码 url返回base64码
       AutoImport({
