@@ -18,20 +18,6 @@
           <img :src="imgSrc" ref="isImg" style="width: 200px; height: 200px" v-else />
         </transition>
       </div>
-      <div>
-        <p>
-          把svg文件直接作为组件引入使用：&nbsp;
-          <MyIconCom style="width: 22px; height: 22px" />
-        </p>
-        <p>
-          把svg文件作为url引入使用：&nbsp;
-          <img :src="MyIcon" style="width: 20px; height: 20px" />
-        </p>
-        <p>
-          常规读取文件为url：&nbsp;
-          <img :src="path" style="width: 20px; height: 20px" />
-        </p>
-      </div>
     </div>
 
     <div>
@@ -211,11 +197,7 @@
 <script setup>
   import qq from '@/assets/imgs/2.jpeg';
   import webp from '@/assets/imgs/1.webp';
-  import MyIcon1 from '@/assets/svg/ppp.svg?raw'; // 返回svg代码
-  import MyIcon from '@/assets/svg/ppp.svg?url'; // 返回base64码
-  import MyIconCom from '@/assets/svg/ppp.svg?component';
   import ftexture from '@/assets/imgs/f-texture.png';
-  let path = new URL('@/assets/svg/ppp.svg', import.meta.url).href;
   let imgs = new URL('@/assets/imgs/star.jpg', import.meta.url).href;
 
   let imgSrc = ref(null);

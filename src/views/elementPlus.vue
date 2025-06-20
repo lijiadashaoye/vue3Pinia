@@ -18,6 +18,20 @@
         &nbsp;
         <svgppp />
       </p>
+      <div>
+        <p style="color: green">
+          把svg文件直接作为组件引入使用，&#60;MyIconCom&#62; &nbsp;
+          <MyIconCom style="width: 22px; height: 22px" />
+        </p>
+        <p style="color: green">
+          把svg文件作为base64码引入使用，:src="MyIconUrl"&nbsp;
+          <img :src="MyIconUrl" style="width: 20px; height: 20px" />
+        </p>
+        <p style="color: green">
+          常规读取文件为url，new URL()&nbsp;
+          <img :src="path" style="width: 20px; height: 20px" />
+        </p>
+      </div>
       <h3>elementPlus使用</h3>
       <p>
         链接文字：
@@ -570,7 +584,7 @@
         <div>
           <h3>标签全屏显示</h3>
           <el-button @click="toFullScreenFn">全屏显示</el-button>
-          <span ref="toFullScreen" class="full">全屏标签</span>
+          <span ref="toFullScreen" class="fullScreen">全屏标签</span>
         </div>
         <div>
           <h3>桌面通知</h3>
@@ -632,6 +646,10 @@
 
     <div>
       <h3>渐变</h3>
+      <p>渐变属于 image 数据类型，因此只能用在可以使用 image 的地方(background-image)</p>
+      <p>
+        background-image: radial-gradient(shape size at position, start-color, ..., last-color);
+      </p>
       <div style="display: grid; grid-template-columns: 50% 50%">
         <div>
           <p>
@@ -691,6 +709,10 @@
   </div>
 </template>
 <script setup>
+  import MyIconRaw from '@/assets/svg/loading.svg?raw'; // 返回svg代码
+  import MyIconUrl from '@/assets/svg/upload.svg?url'; // 返回base64码
+  import MyIconCom from '@/assets/svg/ppp.svg?component';
+  let path = new URL('@/assets/svg/ppp.svg', import.meta.url).href;
   // 无限滚动
   let scrollVal = ref(0);
   let scrollbarRef = ref(null);
@@ -962,14 +984,12 @@
   let anchorWap = ref(null);
   let affix = ref(null);
   // 遮罩层
-  import MyIcon from '@/assets/svg/ppp.svg?raw'; // 返回svg代码
-  import MyIcon1 from '@/assets/svg/ppp.svg?url'; // 返回base64码
   function loadingFn(type) {
     let config = {
-      lock: true,
       text: '加载中...',
       background: 'rgba(0, 0, 0, 0.15)',
-      svg: MyIcon,
+      svgViewBox: '0 0 200 200',
+      svg: MyIconRaw,
       customClass: 'isLoading',
     };
     if (type) {
@@ -1459,7 +1479,7 @@
     background-color: rgb(247, 247, 247);
   }
   :deep(.tableHeader) {
-    background-color: #f80505 !important;
+    background: #fbc4c4 !important;
     color: #5c022b;
   }
   .isPation {
@@ -1498,8 +1518,13 @@
       background: #40ffa0;
     }
   }
+  // 自定义loading遮罩层
+  :global(.isLoading .el-loading-text) {
+    color: white !important;
+    font-size: 20px !important;
+  }
   // 全屏展示
-  .full {
+  .fullScreen {
     background: #fff;
     text-align: center;
   }
@@ -1572,6 +1597,7 @@
     height: 120px;
     border-radius: 50%;
     background-image:
+    
       // 由圆心向外
       radial-gradient(#fff 0%, #fff 25%, transparent 25%, pink 100%),
       // 十二点钟方向是 0%，顺时针为正方向
@@ -1586,7 +1612,7 @@
           #12dd7e 50%,
           #0a6e3f 50%,
           #0a6e3f 62.5%,
-          #fff 62.5%,
+          #1ee 62.5%,
           #fff 100%
         );
   }
@@ -1595,7 +1621,12 @@
     display: inline-block;
     width: 120px;
     height: 120px;
-    background: conic-gradient(#fff 0 90deg, #000 90deg 180deg, #fff 180deg 270deg, #000 270deg);
+    background-image: conic-gradient(
+      #fff 0 90deg,
+      #000 90deg 180deg,
+      #fff 180deg 270deg,
+      #000 270deg
+    );
     background-size: 10% 10%; // 每一小块的占比
   }
   // 径向重复渐变
@@ -1603,13 +1634,13 @@
     display: inline-block;
     width: 120px;
     height: 120px;
-    background: repeating-radial-gradient(circle at 60% 40%, red 30%, blue 50%);
+    background-image: repeating-radial-gradient(circle at 70% 20%, red 30%, blue 50%);
   }
   // 线形渐变
   .xianxing {
     height: 30px;
     color: white;
-    background: linear-gradient(40deg, red 30%, blue 70%);
+    background-image: linear-gradient(40deg, red 30%, blue 70%);
   }
   // 重复渐变
   .linear-repeat {
@@ -1619,7 +1650,13 @@
       其余值会被转换为一个以向顶部中央方向为起点顺时针旋转的角度。
       渐变线的结束点与其起点中心对称。
     */
-    background: repeating-linear-gradient(30deg, lightpink 0, lightpink 5px, white 5px, white 10px);
+    background-image: repeating-linear-gradient(
+      30deg,
+      lightpink 0,
+      lightpink 5px,
+      white 5px,
+      white 10px
+    );
   }
 
   // 投影
