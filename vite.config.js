@@ -85,18 +85,58 @@ export default defineConfig(({ command, mode }) => {
         compiler: 'vue3', // 编译方式
         customCollections: {
           // 自定义图标文件路径
-          svg: FileSystemIconLoader(
-            './src/assets/svg',
-            svg => svg.replace(/(?<=fill=)['"].+?['"]/gi, '"currentColor"'), // 让svg的颜色跟随使用处的设置
-          ),
+          svg: FileSystemIconLoader('./src/assets/svg', svg => {
+            return svg
+              .replace(/(?<=fill=)['"].+?['"]/gi, '"currentColor"')
+              .replace(/<title>.*?<\/title>/g, '')
+              .replace(/<defs>.*?<\/defs>/g, '')
+              .replace(/class=['"].*?['"]/g, '')
+              .replace(/\s+/g, ' ');
+          }),
         },
       }),
       svgLoader({
         defaultImport: 'raw',
         svgoConfig: {
+          js2svg: {
+            indent: 4, // number
+            pretty: true, // boolean
+          },
           multipass: true,
           svgo: true,
-          plugins: ['cleanupAttrs'],
+          plugins: [
+            'preset-default', // 加载默认配置
+            'removeDimensions', // 从最顶层的 <svg> 元素中删除 width 和 height 属性
+            'removeOffCanvasPaths', // 如果存在 viewBox，则 删除在<路径> 之外绘制的元素
+            'removeXMLNS', // 从文档中最顶部的元素中删除该属性
+            'removeXlink', // 删除 XLink 命名空间前缀
+            {
+              name: 'myPlugin',
+              fn: t => {
+                // 去除自带颜色和class样式
+                replaceFill(t.children);
+                function replaceFill(arr) {
+                  arr.forEach(tar => {
+                    if (tar.attributes.class) {
+                      delete tar.attributes.class;
+                    }
+                    if (tar.attributes.fill) {
+                      tar.attributes.fill = 'currentColor';
+                    }
+                    if (tar.children && tar.children.length) {
+                      replaceFill(tar.children);
+                    }
+                  });
+                }
+              },
+            },
+            {
+              name: 'prefixIds',
+              params: {
+                prefix: 'uwu',
+              },
+            },
+          ],
         },
       }), // raw返回svg代码 url返回base64码
       AutoImport({
