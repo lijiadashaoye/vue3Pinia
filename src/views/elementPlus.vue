@@ -140,7 +140,7 @@
         <p>5</p>
       </div>
       <div>
-        <h3>固定子元素尺寸：repeat(auto-fit, minmax(60px, 1fr))</h3>
+        <h3>固定子元素尺寸：repeat(auto-fit, 100px)</h3>
         <ul class="gridTest resizable">
           <li v-for="t in 13" :key="t">{{ t }}</li>
         </ul>
@@ -167,7 +167,7 @@
         style="max-width: 500px"
         :model="formData"
         label-width="auto"
-        class="demo-ruleForm"
+        class="self-placeholder"
         label-suffix=":"
         require-asterisk-position="right"
         scroll-to-error
@@ -522,7 +522,9 @@
             <template #content>
               <span>ContentContentContentContentContent</span>
             </template>
-            <el-button @click="visible = !visible" size="small">手动触发显示隐藏</el-button>
+            <el-button @mouseenter="visible = true" @click="visible = false" size="small">
+              手动触发隐藏
+            </el-button>
           </el-tooltip>
           <el-button @click="messageFn" size="small" type="primary">messageFn</el-button>
           <el-button @click="batteryFn" size="small" type="primary">查看电池</el-button>
@@ -602,7 +604,7 @@
 
         <div>
           <h3>投影</h3>
-          <div class="hexagon"></div>
+          <div class="touying"></div>
         </div>
         <div>
           <h3>径向渐变应用</h3>
@@ -651,7 +653,7 @@
           <p>线形渐变：</p>
           <div class="xianxing"></div>
           <p>重复渐变：</p>
-          <div class="chongfu1"></div>
+          <div class="linear-repeat"></div>
         </div>
       </div>
     </div>
@@ -662,7 +664,7 @@
       <div>
         <canvas ref="clipCanvas"></canvas>
       </div>
-      <h3>渐变canvas</h3>
+      <h3>canvas涂写</h3>
       <el-button @click="makeLinerCanvas">生成Canvas</el-button>
       <div>
         <canvas ref="linerCanvas"></canvas>
@@ -1093,7 +1095,8 @@
       };
     });
   }
-  // canvas擦除
+
+  // canvas擦除、签字
   let clipCanvas = ref(null);
   function makeCanvas() {
     let x,
@@ -1110,7 +1113,7 @@
       x = e.offsetX;
       y = e.offsetY;
     });
-    clipCanvas.value.addEventListener('mouseup', e => {
+    document.addEventListener('mouseup', e => {
       x = y = null;
     });
     clipCanvas.value.addEventListener('mousemove', e => {
@@ -1149,6 +1152,36 @@
     grd.addColorStop(1, 'yellow');
     ctx.fillStyle = grd;
     ctx.fillRect(0, 0, width, height);
+
+    let x, y;
+    linerCanvas.value.addEventListener('mousedown', e => {
+      x = e.offsetX;
+      y = e.offsetY;
+    });
+    document.addEventListener('mouseup', e => {
+      x = y = null;
+    });
+    linerCanvas.value.addEventListener('mousemove', e => {
+      if (x && y) {
+        x = e.offsetX;
+        y = e.offsetY;
+        ctx.save();
+        ctx.moveTo(x, y);
+        ctx.beginPath();
+        /*
+          context.arc(x,y,r,sAngle,eAngle,counterclockwise);
+            x：圆心的 x 坐标
+            y：圆心的 y 坐标
+            r：圆的半径
+            sAngle：起始角，以弧度计（弧的圆形的三点钟位置是 0 度）
+            eAngle：结束角，以弧度计
+          */
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'red';
+        ctx.fill();
+        ctx.restore();
+      }
+    });
   }
 
   // 剪切板操作
@@ -1238,6 +1271,7 @@
 </script>
 
 <style lang="scss" scoped>
+  // grid布局
   .resizable {
     resize: horizontal;
     border: 1px solid rgb(187, 187, 187);
@@ -1250,7 +1284,6 @@
     padding: 3px;
     overflow-x: hidden;
   }
-
   .gridLearn {
     box-sizing: border-box;
     width: 100%;
@@ -1283,57 +1316,16 @@
     display: grid;
     // repeat() 的括号内做很多事情。它接收两个参数，中间用逗号隔开。
     // 第一个参数代表"计数"，第二个参数代表"轨道"，轨道是一列或一行的通用名称
-    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); // 1fr，即可用空间的几分之一
+    grid-template-columns: repeat(auto-fit, 100px);
     grid-gap: 5px 10px;
     justify-content: space-between;
     li {
-      background-color: #40ff5d;
+      background-color: #23c93b;
       align-self: center;
       justify-self: center;
       text-align: center;
       width: 100%;
     }
-  }
-  .transition-box {
-    width: 200px;
-    height: 40px;
-    border-radius: 4px;
-    background-color: #409eff;
-    text-align: center;
-    color: #fff;
-    padding: 0 10px;
-    box-sizing: border-box;
-    margin-bottom: 5px;
-  }
-  :deep(.scrollBarWrap) {
-    height: 180px;
-    outline: 2px solid #f38ecc;
-    outline-offset: 1px;
-  }
-  .scrollbar-flex-content {
-    display: flex;
-    position: sticky;
-    top: 0;
-  }
-  .scrollbar-demo-item1,
-  .scrollbar-demo-item2 {
-    flex-shrink: 0;
-    background-color: rgb(195, 140, 246);
-    margin: 0 10px 10px 0;
-  }
-  .scrollbar-demo-item1 {
-    width: 95%;
-    height: 20px;
-  }
-  .scrollbar-demo-item2 {
-    width: 40px;
-    height: 20px;
-  }
-
-  .demo-ruleForm ::placeholder {
-    color: rgba(165, 162, 162, 0.461);
-    font-size: 12px;
-    text-indent: 5px;
   }
 
   .gridTest1 {
@@ -1382,15 +1374,58 @@
       height: 20px;
     }
   }
-
+  // elementUI自带动画
+  .transition-box {
+    width: 200px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #409eff;
+    text-align: center;
+    color: #fff;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+  }
+  // 滚动条+无限滚动
+  :deep(.scrollBarWrap) {
+    height: 180px;
+    outline: 2px solid #f38ecc;
+    outline-offset: 1px;
+  }
+  .scrollbar-flex-content {
+    display: flex;
+    position: sticky;
+    top: 0;
+  }
+  .scrollbar-demo-item1,
+  .scrollbar-demo-item2 {
+    flex-shrink: 0;
+    background-color: rgb(195, 140, 246);
+    margin: 0 10px 10px 0;
+  }
+  .scrollbar-demo-item1 {
+    width: 95%;
+    height: 20px;
+  }
+  .scrollbar-demo-item2 {
+    width: 40px;
+    height: 20px;
+  }
+  // 自定义placeholder样式
+  .self-placeholder ::placeholder {
+    color: rgba(192, 192, 248, 0.461);
+    font-size: 12px;
+    text-indent: 5px;
+  }
+  // 提示徽章
   .badges {
     display: grid;
     grid-template-columns: 30% 35% 35%;
     grid-gap: 10px;
   }
-
+  // 走马灯
   .el-carousel__item h3 {
-    color: #475669;
+    color: #695647;
     opacity: 0.75;
     line-height: 50px;
     margin: 0;
@@ -1403,14 +1438,14 @@
   .el-carousel__item:nth-child(2n + 1) {
     background-color: #d3dce6;
   }
-
+  // 表格展示数据
   :deep(.my-label) {
     background: var(--el-color-success-light-9) !important;
   }
   :deep(.my-content) {
     background: var(--el-color-danger-light-9);
   }
-
+  // 自定义表格背景
   :deep(.warning-row) {
     background-color: rgb(247, 247, 86);
   }
@@ -1434,6 +1469,7 @@
     align-items: center;
     background-color: #fff;
   }
+  // 锚点
   .affix {
     height: 350px;
     display: grid;
@@ -1462,7 +1498,12 @@
       background: #40ffa0;
     }
   }
-
+  // 全屏展示
+  .full {
+    background: #fff;
+    text-align: center;
+  }
+  // 可编辑div
   .editDiv {
     width: 300px;
     height: 300px;
@@ -1470,7 +1511,7 @@
     resize: vertical;
     overflow: auto;
   }
-
+  // 粘连
   .snap {
     width: 200px;
     height: 200px;
@@ -1492,7 +1533,7 @@
       }
     }
   }
-
+  // 文字剪切
   .backgrounds p {
     display: inline-block;
     width: 160px;
@@ -1509,7 +1550,7 @@
     background-origin: content-box;
     background-position: top 0px right 0px;
   }
-
+  // 文字超长显示省略号
   .toLong {
     width: 140px;
     overflow: hidden;
@@ -1524,49 +1565,54 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
   }
-
+  // 锥形+径向渐变
   .zhuixing {
     display: inline-block;
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background:
+    background-image:
+      // 由圆心向外
       radial-gradient(#fff 0%, #fff 25%, transparent 25%, pink 100%),
+      // 十二点钟方向是 0%，顺时针为正方向
       conic-gradient(
-        #f1462c 0,
-        #f1462c 11.5%,
-        #fba73e 12.5%,
-        #fba73e 25%,
-        #e0fa4e 25%,
-        #e0fa4e 37.5%,
-        #12dd7e 37.5%,
-        #12dd7e 50%,
-        #0a6e3f 50%,
-        #0a6e3f 62.5%,
-        #fff 62.5%,
-        #fff 100%
-      );
+          #2cf15a 0%,
+          #f1462c 11.5%,
+          #fba73e 12.5%,
+          #fba73e 25%,
+          #e0fa4e 25%,
+          #e0fa4e 37.5%,
+          #12dd7e 37.5%,
+          #12dd7e 50%,
+          #0a6e3f 50%,
+          #0a6e3f 62.5%,
+          #fff 62.5%,
+          #fff 100%
+        );
   }
+  // 重复渐变
   .zhuixing2 {
     display: inline-block;
     width: 120px;
     height: 120px;
-    background: conic-gradient(#fff 90deg, #000 90deg 180deg, #fff 180deg 270deg, #000 270deg) left
-      top/25% 25%;
+    background: conic-gradient(#fff 0 90deg, #000 90deg 180deg, #fff 180deg 270deg, #000 270deg);
+    background-size: 10% 10%; // 每一小块的占比
   }
-
+  // 径向重复渐变
   .jingxiang {
     display: inline-block;
     width: 120px;
     height: 120px;
     background: repeating-radial-gradient(circle at 60% 40%, red 30%, blue 50%);
   }
+  // 线形渐变
   .xianxing {
     height: 30px;
     color: white;
     background: linear-gradient(40deg, red 30%, blue 70%);
   }
-  .chongfu1 {
+  // 重复渐变
+  .linear-repeat {
     height: 30px;
     /*
       to top, to bottom, to left 和 to right这些值会被转换成角度0度、180度、270度和90度。
@@ -1576,33 +1622,30 @@
     background: repeating-linear-gradient(30deg, lightpink 0, lightpink 5px, white 5px, white 10px);
   }
 
-  .full {
-    background: #fff;
-    text-align: center;
-  }
-
-  .hexagon {
+  // 投影
+  .touying {
     display: inline-block;
     width: 60px;
     height: 40px;
     background-color: #99a9bf;
     filter: drop-shadow(10px 10px 3px #000);
   }
-
+  // 径向渐变应用
   .radialGradient {
     width: 100px;
     height: 50px;
+    border-radius: 10px;
     /*通过radial-gradient，用径向渐变创建 "图像"*/
     /*定义了形状:圆形，位置：左下角，颜色：透明，半径：10，背景色：f5f5f5，背景位置：左右各一个*/
     background:
       radial-gradient(circle at top left, transparent 10px, red 35px) left,
       radial-gradient(circle at bottom right, transparent 10px, blue 10px) right;
     /*对应上面左右各一个，这里把背景横向平分50%宽 100%高*/
-    background-size: 50% 95%;
+    background-size: 50% 100%;
     /*必须设置否则去掉上面某些样式，会有多个透明扇形出现*/
     background-repeat: no-repeat;
-    border-radius: 10px;
   }
+  // 内圆弧实现
   .radialInner {
     position: relative;
     width: 40px;
