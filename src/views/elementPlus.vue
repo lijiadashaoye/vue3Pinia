@@ -516,7 +516,7 @@
           <el-anchor
             :select-scroll-top="true"
             :bound="50"
-            :offset="10"
+            :offset="5"
             direction="vertical"
             :container="anchorWap"
           >
@@ -529,9 +529,11 @@
               </template>
             </el-anchor-link>
           </el-anchor>
-          <el-button type="primary" size="small" @click="loadingFn(true)">局部Loading</el-button>
-          <el-button type="primary" size="small" @click="loadingFn(false)">全屏Loading</el-button>
-          <el-button @click="showMessage" size="small" type="primary">二次确认弹框</el-button>
+          <el-button type="info" @click="loadingFn(true)">局部Loading</el-button>
+          <el-button type="primary" @click="loadingFn(false)">全屏Loading</el-button>
+          <el-button @click="showMessage" type="success">二次确认弹框</el-button>
+          <el-button @click="messageFn" type="warning">messageFn</el-button>
+          <el-button @click="batteryFn" size="small" type="danger">查看电池</el-button>
           <el-tooltip :visible="visible" effect="light" :offset="6">
             <template #content>
               <span>ContentContentContentContentContent</span>
@@ -540,8 +542,6 @@
               手动触发隐藏
             </el-button>
           </el-tooltip>
-          <el-button @click="messageFn" size="small" type="primary">messageFn</el-button>
-          <el-button @click="batteryFn" size="small" type="primary">查看电池</el-button>
         </div>
       </div>
     </div>
@@ -1520,7 +1520,7 @@
   }
   // 自定义loading遮罩层
   :global(.isLoading .el-loading-text) {
-    color: white !important;
+    color: rgb(255, 255, 83) !important;
     font-size: 20px !important;
   }
   // 全屏展示

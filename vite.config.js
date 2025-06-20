@@ -91,7 +91,13 @@ export default defineConfig(({ command, mode }) => {
           ),
         },
       }),
-      svgLoader({ multipass: true, svgo: true, defaultImport: 'raw' }), // raw返回svg代码 url返回base64码
+      svgLoader({
+        svgoConfig: {
+          multipass: true,
+          svgo: true,
+          defaultImport: 'raw',
+        },
+      }), // raw返回svg代码 url返回base64码
       AutoImport({
         imports: [
           'vue-router',
